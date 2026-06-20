@@ -102,9 +102,15 @@ export function RecurringManager({
           paymentMethod: "credito",
           notes: "",
         });
+        setErrors({});
         router.refresh();
         const updated = await fetch("/api/recurring").then((r) => r.json());
-        setItems(updated);
+        setItems(Array.isArray(updated) ? updated : []);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrors({
+          form: data.error ?? "Não foi possível salvar a mensalidade",
+        });
       }
     } finally {
       setLoading(false);
@@ -257,13 +263,16 @@ export function RecurringManager({
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
               />
             </div>
-            <div className="flex gap-2 md:col-span-2">
-              <Button type="submit" disabled={loading}>
-                {loading ? "Salvando..." : "Salvar mensalidade"}
-              </Button>
-              <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
-                Cancelar
-              </Button>
+            <div className="md:col-span-2">
+              <FieldError message={errors.form} />
+              <div className="flex gap-2">
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Salvando..." : "Salvar mensalidade"}
+                </Button>
+                <Button type="button" variant="ghost" onClick={() => setShowForm(false)}>
+                  Cancelar
+                </Button>
+              </div>
             </div>
           </form>
         </Card>

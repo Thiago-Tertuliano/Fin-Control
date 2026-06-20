@@ -11,6 +11,8 @@
     { "from": ".next/standalone", "to": "standalone", "filter": ["**/*"] },
     { "from": "build/node", "to": "node", "filter": ["**/*"] }
   ],
+  "npmRebuild": false,
+  "nodeGypRebuild": false,
   "win": {
     "target": [{ "target": "nsis", "arch": ["x64"] }],
     "artifactName": "FinControl-Setup-${version}.${ext}"

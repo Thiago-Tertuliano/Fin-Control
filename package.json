@@ -15,7 +15,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:clear": "node scripts/clear-data.js",
-    "desktop:prepare": "next build && node scripts/prepare-standalone.mjs && node scripts/bundle-node.mjs",
+    "desktop:prepare": "next build && node scripts/prepare-standalone.cjs && node scripts/bundle-node.cjs && node scripts/rebuild-standalone-native.cjs",
     "desktop:pack": "npm run desktop:prepare && electron-builder --win --config electron-builder.json",
     "desktop:dir": "npm run desktop:prepare && electron-builder --win --dir --config electron-builder.json"
   },

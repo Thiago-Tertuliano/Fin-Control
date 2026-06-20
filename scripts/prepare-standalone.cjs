@@ -23,14 +23,11 @@ function copyRecursive(src, dest) {
   }
 }
 
-// Assets estáticos exigidos pelo Next standalone
 copyRecursive(
   path.join(root, ".next", "static"),
   path.join(standaloneDir, ".next", "static")
 );
 copyRecursive(path.join(root, "public"), path.join(standaloneDir, "public"));
-
-// Migrations SQLite
 copyRecursive(
   path.join(root, "lib", "db", "migrations"),
   path.join(standaloneDir, "lib", "db", "migrations")

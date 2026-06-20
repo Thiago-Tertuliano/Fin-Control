@@ -15,14 +15,25 @@ export default function GastosPage() {
   const [banks, setBanks] = useState<Bank[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   const loadExpenses = useCallback(async (filters: Record<string, string> = {}) => {
     setLoading(true);
+    setLoadError(null);
     try {
       const { start, end } = getMonthRange();
       const params = new URLSearchParams({ start, end, ...filters });
       const res = await fetch(`/api/expenses?${params}`);
       const data = await res.json();
-      setExpenses(data);
+      if (!res.ok) {
+        setLoadError(data.error ?? "Erro ao carregar gastos");
+        setExpenses([]);
+        return;
+      }
+      setExpenses(Array.isArray(data) ? data : []);
+    } catch {
+      setLoadError("Não foi possível conectar ao servidor");
+      setExpenses([]);
     } finally {
       setLoading(false);
     }
@@ -61,6 +72,12 @@ export default function GastosPage() {
         banks={banks}
         onFilter={loadExpenses}
       />
+
+      {loadError && (
+        <div className="mb-6 rounded-xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+          {loadError}
+        </div>
+      )}
 
       {loading ? (
         <div className="py-16 text-center text-sm text-muted">
