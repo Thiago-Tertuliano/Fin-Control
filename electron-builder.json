@@ -1,0 +1,27 @@
+{
+  "appId": "com.axellion.fincontrol",
+  "productName": "FinControl",
+  "copyright": "Copyright © 2026 Axellion",
+  "directories": {
+    "output": "dist",
+    "buildResources": "build"
+  },
+  "files": ["electron/**/*"],
+  "extraResources": [
+    { "from": ".next/standalone", "to": "standalone", "filter": ["**/*"] },
+    { "from": "build/node", "to": "node", "filter": ["**/*"] }
+  ],
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "artifactName": "FinControl-Setup-${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "FinControl",
+    "installerLanguages": ["pt_BR", "en_US"],
+    "language": "1046"
+  }
+}
